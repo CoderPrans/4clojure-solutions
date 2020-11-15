@@ -9,29 +9,16 @@
         (recur (inc x) (conj y (nth s x))))
       (conj y (nth s (dec (count s)))))))
  [1 1 2 3 3 2 2 3])
-
-; whoaaaaaaaaaaa ...
-#(map first (partition-by identity %))
-
+;; => [1 2 3 2 3]
 
 ;;Challenge: pack a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s]
    (partition-by identity s))
  [1 1 2 1 1 1 3 3])
-
+;; => ((1 1) (2) (1 1 1) (3 3))
 
 ;;Challenge: duplicate a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(map (fn [x] (cons x [x])) [[1 2] 3])
-
-((fn [s]
-  (flatten
-   (for [x s]
-     [x x])))
- '(1 2 3)) ; fails for opt. 3
-
-; this works :thumbs-up:
 
 ((fn [x]
   (reduce
@@ -39,11 +26,9 @@
      (concat col (list elm elm)))
    '() x))
  '([1 2] 3))
-
+;; => ([1 2] [1 2] 3 3)
 
 ;;Challenge: replicat\e a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(replicate 3 "yes")
 
 ((fn [x c]
   (reduce
@@ -51,7 +36,7 @@
      (concat col (replicate c elm)))
    '() x))
  [1 2 3] 4)
-
+;; => (1 1 1 1 2 2 2 2 3 3 3 3)
 
 ;;Challenge: Implement range ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -62,12 +47,14 @@
       (recur (inc c) (concat l (list c)))
       l)))
  5 8)
+;; => (5 6 7)
 
 ;;Challenge: Maximum value ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [& args]
    (last (sort args)))
  45 67 11)
+;; => 67
 
 ;;Challenge: Interleave two seqs ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -81,6 +68,7 @@
                          (nth s2 c))))
        x)))
  [1 2 3] [:a :b :c])
+;; => (1 :a 2 :b 3 :c)
 
 ;;Challenge: Interpose a seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -91,6 +79,7 @@
       (flatten (for [x s]
                  [x d]))))))
  0 [1 2 3])
+;; => (1 0 2 0 3)
 
 ;;Challenge: Drop every nth item ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -103,4 +92,4 @@
                    (.indexOf s x)) n)))]
      x))
  [:a :b :c :d :e :f] 2)
-
+;; => (:a :c :e)
