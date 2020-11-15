@@ -1,3 +1,30 @@
+;;Challenge: palindrome detector ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [coll]
+   (= (seq coll) (reverse coll)))
+ "racecar")
+;; => true
+
+;;Challenge: flatten a seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [s]
+   (reverse
+    (reduce (fn extract [col elm]
+              (if (coll? elm)
+                (reduce extract col elm)
+                (conj col elm))) '() s)))
+ '((1 2) 3 [4 [5 6]]))
+;; => (1 2 3 4 5 6)
+
+;;Challenge: get the caps ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [s]
+   (clojure.string/join
+    (filter #(re-matches #"[A-Z]" (str %))
+            (seq s))))
+ "HeLlO, WoRlD!")
+;; => "HLOWRD"
+
 ;;Challenge: compress a seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s]
@@ -38,7 +65,7 @@
  [1 2 3] 4)
 ;; => (1 1 1 1 2 2 2 2 3 3 3 3)
 
-;;Challenge: Implement range ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Challenge: implement range ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [x y]
   (loop [c x
@@ -49,14 +76,14 @@
  5 8)
 ;; => (5 6 7)
 
-;;Challenge: Maximum value ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Challenge: maximum value ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [& args]
    (last (sort args)))
  45 67 11)
 ;; => 67
 
-;;Challenge: Interleave two seqs ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Challenge: interleave two seqs ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s1 s2]
    (loop [c 0
@@ -70,7 +97,7 @@
  [1 2 3] [:a :b :c])
 ;; => (1 :a 2 :b 3 :c)
 
-;;Challenge: Interpose a seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Challenge: interpose a seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [d s]
    (reverse
@@ -81,7 +108,7 @@
  0 [1 2 3])
 ;; => (1 0 2 0 3)
 
-;;Challenge: Drop every nth item ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Challenge: drop every nth item ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s n]
    (for [x s
