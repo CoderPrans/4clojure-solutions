@@ -120,3 +120,21 @@
      x))
  [:a :b :c :d :e :f] 2)
 ;; => (:a :c :e)
+
+;;Challenge: factorial fun ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn factorial [n]
+   (if (= n 1)
+     n
+     (* n (factorial (dec n)))))
+ 8)
+;; => 40320
+
+;;Challenge: reverse interleave ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [s n]
+   (let [gm (group-by #(mod % n) s)]
+     (map #(apply list (get gm %)) (keys gm))))
+  (range 10) 5)
+;; => ((0 5) (1 6) (2 7) (3 8) (4 9))
+
