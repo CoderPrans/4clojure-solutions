@@ -135,6 +135,29 @@
 ((fn [s n]
    (let [gm (group-by #(mod % n) s)]
      (map #(apply list (get gm %)) (keys gm))))
-  (range 10) 5)
+ (range 10) 5)
 ;; => ((0 5) (1 6) (2 7) (3 8) (4 9))
+
+;;Challenge: rotate sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [n s]
+   (let [i (if (< (count s) (Math/abs n))
+             (- (Math/abs n) (count s))
+             (Math/abs n))]
+     (concat
+      (filter #(> (.indexOf s %)
+                  (if (> n 0) (dec i)
+                      (- (count s) (inc i)))) s)
+      (filter #(< (.indexOf s %)
+                  (if (> n 0) i
+                      (- (count s) i))) s))))
+ -4 '(:a :b :c))
+;; => (:c :a :b)
+
+;;Challenge: Flipping out ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(((fn [f]
+    (fn [& args] (apply f (reverse args))))
+  quot) 2 8)
+;; => 4
 
