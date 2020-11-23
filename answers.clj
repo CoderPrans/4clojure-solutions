@@ -161,3 +161,38 @@
   quot) 2 8)
 ;; => 4
 
+;;Challenge: Split by Type ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(set ((fn [s]
+         (vals (group-by type s)))
+      [1 :a 2 :b 3 :c]))
+;; => #{[:a :b :c] [1 2 3]}
+
+;;Challenge: Split a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [n s]
+   (partition-by #(>= (.indexOf s %) n) s))
+ 1 [:a :b :c :d])
+;; => ((:a) (:b :c :d))
+
+;;Challenge: Advanced Destructuring ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(let
+    [[a b & c :as d] [1 2 3 4 5]]
+  [a b c d])
+;; => [1 2 (3 4 5) [1 2 3 4 5]]
+
+;;Challenge: Longest Increasing Sub-seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+                                        ;TODO
+;; ((fn [s]
+;;    (loop [c 0
+;;           y []]
+;;      (if (and
+;;           (= (dec (nth s c)) (nth s (dec c)))
+;;           (> c 0)
+;;           (< c (dec (count s))))
+;;        (recur (inc c) (conj y (list (nth s c))))
+;;        (recur (inc c) y))))
+;;  [1 0 1 2 3 0 4 5])
+
