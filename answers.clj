@@ -182,17 +182,85 @@
   [a b c d])
 ;; => [1 2 (3 4 5) [1 2 3 4 5]]
 
-;;Challenge: Longest Increasing Sub-seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Challenge 53: Longest Increasing Sub-seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-                                        ;TODO
-;; ((fn [s]
-;;    (loop [c 0
-;;           y []]
-;;      (if (and
-;;           (= (dec (nth s c)) (nth s (dec c)))
-;;           (> c 0)
-;;           (< c (dec (count s))))
-;;        (recur (inc c) (conj y (list (nth s c))))
-;;        (recur (inc c) y))))
-;;  [1 0 1 2 3 0 4 5])
+; method 1 (loop recur)
+((fn [s]
+   (loop [temp_coll []
+          sub_colls []
+          remaining s]
+
+     (if (empty? remaining)
+
+       (cond
+         (> (count temp_coll) (count sub_colls)) temp_coll
+         (< (count temp_coll) (count sub_colls)) sub_colls
+         (= 1 (count temp_coll) (count sub_colls)) [])
+
+       (recur
+
+        (cond
+          (= temp_coll []) [(first remaining)]
+          (= (inc (last temp_coll)) (first remaining)) (conj temp_coll (first remaining))
+          (not= (inc (last temp_coll)) (first remaining)) [(first remaining)])
+
+        (if (> (count temp_coll) (count sub_colls))
+          temp_coll
+          sub_colls)
+
+        (rest remaining)
+        ))))
+ [2 3 3 4 5])
+;; => [3 4 5]
+
+; method 2 (modify to suitable form filter, sort, concat)
+((fn [sequence]
+   (let [sorted (->> sequence
+                     (partition 2 1)
+                     (partition-by #(apply < %))
+                     (filter (fn [[[n1 n2]]] (< n1 n2)))
+                     (sort-by count >)
+                     first)]
+     (vec (concat (first sorted) (map last (rest sorted))))))
+ [2 3 3 4 5])
+;; => [3 4 5]
+
+;; Challenge 54: Partition a Sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [n s]
+   (->> (rest s)
+        (reduce
+         #(if (< (count (first %1)) n)
+            (cons (cons %2 (first %1)) (rest %1))
+            (cons (list %2) %1))
+         (->> (first s) list list))
+        reverse
+        (map #(reverse %))
+        (filter #(= (count %) n))))
+ 3 (range 8))
+;; => ((0 1 2) (3 4 5))
+
+;; Challenge 55: Count Occurences ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [s]
+   (->> (sort s)
+        (partition-by identity)
+        (map (fn [v] [(first v) (count v)]))
+        (mapcat (fn [s] s))
+        (apply hash-map)))
+ '([1 2] [1 3] [1 3]))
+;; => {[1 3] 2, [1 2] 1}
+
+;; Challenge 56: Find Distinct Items ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(#(keys (frequencies %)) [1 2 1 3 1 2 4])
+;; => (1 2 3 4)
+
+((fn [s]
+   (if (empty?
+        (filter #(> (count %) 1)
+                (partition-by identity (sort s))))
+     s (keys (frequencies s))))
+ '([2 4] [1 2] [1 3] [1 3]))
+;; => ([2 4] [1 2] [1 3])
 
