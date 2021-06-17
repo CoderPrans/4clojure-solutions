@@ -1,11 +1,11 @@
-;;Challenge: palindrome detector ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 27: Palindrome Detector ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [coll]
    (= (seq coll) (reverse coll)))
  "racecar")
 ;; => true
 
-;;Challenge: flatten a seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 28: Flatten a Sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s]
    (reverse
@@ -16,7 +16,7 @@
  '((1 2) 3 [4 [5 6]]))
 ;; => (1 2 3 4 5 6)
 
-;;Challenge: get the caps ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 29: Get the Caps ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s]
    (clojure.string/join
@@ -25,7 +25,7 @@
  "HeLlO, WoRlD!")
 ;; => "HLOWRD"
 
-;;Challenge: compress a seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 30: Compress a Seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s]
   (loop [x 0
@@ -38,14 +38,14 @@
  [1 1 2 3 3 2 2 3])
 ;; => [1 2 3 2 3]
 
-;;Challenge: pack a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 31: Pack a Sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s]
    (partition-by identity s))
  [1 1 2 1 1 1 3 3])
 ;; => ((1 1) (2) (1 1 1) (3 3))
 
-;;Challenge: duplicate a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 32: Duplicate a Sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [x]
   (reduce
@@ -55,7 +55,7 @@
  '([1 2] 3))
 ;; => ([1 2] [1 2] 3 3)
 
-;;Challenge: replicat\e a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 33: Replicat/e a Sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [x c]
   (reduce
@@ -65,7 +65,7 @@
  [1 2 3] 4)
 ;; => (1 1 1 1 2 2 2 2 3 3 3 3)
 
-;;Challenge: implement range ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 34: Implement Range ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [x y]
   (loop [c x
@@ -76,14 +76,14 @@
  5 8)
 ;; => (5 6 7)
 
-;;Challenge: maximum value ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 38: Maximum Value ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [& args]
    (last (sort args)))
  45 67 11)
 ;; => 67
 
-;;Challenge: interleave two seqs ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 39: Interleave Two Seqs ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s1 s2]
    (loop [c 0
@@ -97,7 +97,7 @@
  [1 2 3] [:a :b :c])
 ;; => (1 :a 2 :b 3 :c)
 
-;;Challenge: interpose a seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 40: Interpose a Seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [d s]
    (reverse
@@ -108,7 +108,7 @@
  0 [1 2 3])
 ;; => (1 0 2 0 3)
 
-;;Challenge: drop every nth item ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Challenge 41: Drop Every nth Item ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s n]
    (for [x s
@@ -121,7 +121,7 @@
  [:a :b :c :d :e :f] 2)
 ;; => (:a :c :e)
 
-;;Challenge: factorial fun ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 42: Factorial Fun ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn factorial [n]
    (if (= n 1)
@@ -130,7 +130,7 @@
  8)
 ;; => 40320
 
-;;Challenge: reverse interleave ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 43: Reverse Interleave ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s n]
    (let [gm (group-by #(mod % n) s)]
@@ -138,7 +138,7 @@
  (range 10) 5)
 ;; => ((0 5) (1 6) (2 7) (3 8) (4 9))
 
-;;Challenge: rotate sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 44: Rotate Sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [n s]
    (let [i (if (< (count s) (Math/abs n))
@@ -154,35 +154,35 @@
  -4 '(:a :b :c))
 ;; => (:c :a :b)
 
-;;Challenge: Flipping out ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 46: Flipping Out ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (((fn [f]
     (fn [& args] (apply f (reverse args))))
   quot) 2 8)
 ;; => 4
 
-;;Challenge: Split by Type ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(set ((fn [s]
-         (vals (group-by type s)))
-      [1 :a 2 :b 3 :c]))
-;; => #{[:a :b :c] [1 2 3]}
-
-;;Challenge: Split a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 49: Split a sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [n s]
    (partition-by #(>= (.indexOf s %) n) s))
  1 [:a :b :c :d])
 ;; => ((:a) (:b :c :d))
 
-;;Challenge: Advanced Destructuring ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 50: Split By Type ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(set ((fn [s]
+         (vals (group-by type s)))
+      [1 :a 2 :b 3 :c]))
+;; => #{[:a :b :c] [1 2 3]}
+
+;;; Challenge 51: Advanced Destructuring ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (let
     [[a b & c :as d] [1 2 3 4 5]]
   [a b c d])
 ;; => [1 2 (3 4 5) [1 2 3 4 5]]
 
-;; Challenge 53: Longest Increasing Sub-seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 53: Longest Increasing Sub-seq ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; method 1 (loop recur)
 ((fn [s]
@@ -225,7 +225,7 @@
  [2 3 3 4 5])
 ;; => [3 4 5]
 
-;; Challenge 54: Partition a Sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 54: Partition a Sequence ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [n s]
    (->> (rest s)
@@ -240,7 +240,7 @@
  3 (range 8))
 ;; => ((0 1 2) (3 4 5))
 
-;; Challenge 55: Count Occurences ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Challenge 55: Count Occurences ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [s]
    (->> (sort s)
