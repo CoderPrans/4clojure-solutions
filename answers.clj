@@ -264,3 +264,22 @@
  '([2 4] [1 2] [1 3] [1 3]))
 ;; => ([2 4] [1 2] [1 3])
 
+
+;; Challenge 58: Function Composition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(((defn -comp [& funcs]
+    (fn [& v]
+      (reduce (fn [acc cur]
+                (if (= v acc) (apply cur acc) (cur acc)))
+              v (reverse funcs))))
+  rest reverse) 
+ [1 2 3 4])
+;; => (3 2 1)
+
+((-comp zero? #(mod % 8) +) 3 5 7 9)
+;; => true
+
+((-comp #(.toUpperCase %) #(apply str %) take) 5 "hello world")
+;; => "HELLO"
+
+
