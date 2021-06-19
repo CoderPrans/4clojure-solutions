@@ -282,4 +282,38 @@
 ((-comp #(.toUpperCase %) #(apply str %) take) 5 "hello world")
 ;; => "HELLO"
 
+;; Challenge 59: Juxtaposition ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(((defn -juxt [& funcs]
+    (fn [& v]
+      (reduce (fn [acc cur]
+                (conj acc (apply cur v)))
+              [] funcs)))
+  + max min)
+ 2 3 5 1 6 4)
+;; => [21 6 1]
+
+((-juxt #(.toUpperCase %) count) "hello")
+;; => ["HELLO" 5]
+
+((-juxt :a :c :b) {:a 2, :b 4, :c 6, :d 8 :e 10})
+;; => [2 6 4]
+
+;; Challenge 60: Sequence Reduction ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(take 5
+      ((fn -reduction
+         ([f s] (-reduction f (first s) (next s)))
+         ([f d s]
+          (cons d
+                (lazy-seq 
+                 (when (seq s) (-reduction f (f d (first s)) (next s)))))
+          ))
+       + (range)))
+;; => (0 1 3 6 10)
+
+                                        ; TODO find how to lazy-seq this.
+                                        ; original solution. only solves 2 and 3.
+#_(let [m (atom [d])]
+    (reduce (fn [a c] (do (swap! m conj (f a c)) (f a c))) d s)
+    @m)
