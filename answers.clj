@@ -213,7 +213,7 @@
  [2 3 3 4 5])
 ;; => [3 4 5]
 
-; method 2 (modify to suitable form filter, sort, concat)
+; method 2 (modify to suitable form, filter, sort, concat)
 ((fn [sequence]
    (let [sorted (->> sequence
                      (partition 2 1)
@@ -317,3 +317,28 @@
 #_(let [m (atom [d])]
     (reduce (fn [a c] (do (swap! m conj (f a c)) (f a c))) d s)
     @m)
+
+;; Challenge 61: Map Construction ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [c1 c2]
+   (loop [i 0
+          m []]
+     (if (= i (min (count c1) (count c2)))
+       (apply hash-map m)
+       (recur (inc i) (conj m (c1 i) (c2 i))))))
+ [:a :b :c] [1 2 3])
+;; => {:c 3, :b 2, :a 1}
+
+(apply hash-map [:a 1 :b 2 :c 3])
+;; => {:c 3, :b 2, :a 1}
+
+; NOTE: map can take multiple collections.
+
+((fn [c1 c2]
+   (apply merge (map (fn [k v] {k v}) c1 c2)))
+ [:a :b :c] [1 2 3])
+;; => {:a 1, :b 2, :c 3}
+
+(apply merge {:a 1} {:b 2} {:c 3})
+;; => {:a 1, :b 2, :c 3}
+
