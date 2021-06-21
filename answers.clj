@@ -329,9 +329,6 @@
  [:a :b :c] [1 2 3])
 ;; => {:c 3, :b 2, :a 1}
 
-(apply hash-map [:a 1 :b 2 :c 3])
-;; => {:c 3, :b 2, :a 1}
-
 ; NOTE: map can take multiple collections.
 
 ((fn [c1 c2]
@@ -339,6 +336,28 @@
  [:a :b :c] [1 2 3])
 ;; => {:a 1, :b 2, :c 3}
 
-(apply merge {:a 1} {:b 2} {:c 3})
-;; => {:a 1, :b 2, :c 3}
+;; Challenge 62: Re-implement iterate ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(take 5 ((fn -iterate [f x]
+           (cons x (lazy-seq
+                    (-iterate f (f x)))))
+         #(* 2 %) 1))
+;; => (1 2 4 8 16)
+
+;; Challenge 63: Group A Sequnce ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn -group-by [f s]
+   (reduce
+    (fn [acc cur]
+      (assoc acc (cur 0)
+             (if (acc (cur 0))
+               (conj (acc (cur 0)) (cur 1))
+               [(cur 1)])))
+    {}
+    (mapcat (fn [e] [[(f e) e]]) s)))
+ #(> % 5) [1 3 6 8])
+;; => {false [1 3], true [6 8]}
+
+;; Challenge 65: Black Box Testing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
