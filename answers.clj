@@ -360,4 +360,50 @@
 
 ;; Challenge 65: Black Box Testing ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+((fn [s]
+   (cond
+     (= (conj s {}) s) :map
+     (empty? s) (cond
+                  (= (clojure.set/union s #{}) #{}) :set
+                  (= (conj (conj s 0) 1) [0 1]) :vector
+                  (= (conj (conj s 0) 1) [1 0]) :list)
+     (= (clojure.set/union s s) s) :set
+     (= (last (conj s s)) s) :vector
+     (= (first (conj s s)) s) :list
+     ))
+ #{10 (rand-int 5)})
+
+;; Challenge 66: Greatest Common Divisor ;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+
+((fn [a b]
+   (if (zero? b)
+     a
+     (recur b (mod a b))))
+ 1023 858)
+;; => 33
+
+;; Challenge 67: Prime Numbers ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [n]
+   (take n (lazy-seq
+            (filter (fn [j]
+                      (= (count (filter (fn [i] (= 0 (mod j i))) (rest (range j))))
+                         1))
+                    (rest (rest (range))))))
+   ) 5)
+;; => (2 3 5 7 11)
+
+((fn [n]
+   (take n (lazy-seq
+            (->> (rest (rest (range)))
+                 (filter
+                  (fn [j]
+                    (->> (rest (range j))
+                         (filter #(= 0 (mod j %)))
+                         count
+                         (= 1)))))
+            )))
+ 5)
+;; => (2 3 5 7 11)
+
 
