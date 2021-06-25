@@ -442,4 +442,30 @@
  "Clojure is a fun language!")
 ;; => ("a" "Clojure" "fun" "is" "language")
 
+;; Challenge 73: Analayze a Tic-Tac-Toe Board ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def lettuce [[:x :e :e]
+              [:o :x :e]
+              [:o :e :x]])
+
+((fn [l]
+   (let [ac-r #(vector ((l 0) %1)
+                    ((l 1) %2)
+                    ((l 2) %3))
+         hori #(when (apply = (l %))
+                 ((l %) 0))
+         vert #(when (apply = (ac-r % % %))
+                 ((ac-r % % %) 0))
+         diag #(let [s (if (= % \r)
+                         (ac-r 0 1 2)
+                         (ac-r 2 1 0))]
+                 (when (apply = s)
+                   (s 0)))
+         res (or (hori 0) (hori 1) (hori 2)
+                 (vert 0) (vert 1) (vert 2)
+                 (diag \r) (diag \l))]
+     (when-not (= res :e) res)))
+ lettuce)
+;; => :x
+
 
