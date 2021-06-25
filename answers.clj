@@ -406,4 +406,40 @@
  5)
 ;; => (2 3 5 7 11)
 
+;; Challenge 69: Merge with a Function ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [f & maps]
+   (reduce (fn [acc cur]
+             (if (empty? acc)
+               (conj acc cur)
+               (->> (set (apply concat (map keys [acc cur])))
+                    (map #(cond
+                            (and (contains? acc %)
+                                 (contains? cur %)) {% (f (acc %) (cur %))}
+                            (contains? acc %) {% (acc %)}
+                            (contains? cur %) {% (cur %)}))
+                    (apply merge))))
+           {} maps))
+ concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
+;; => {:c [8 9], :b (6 7), :a (3 4 5)}
+
+;; Challenge 70: Word Sorting ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(#(sort
+   (clojure.string/split % #"\s|[.!,]"))
+ "Have a nice day!")
+;; => ("Have" "a" "day" "nice")
+
+((fn [s]
+   (let [caps (re-seq #"[A-Z][a-z]+" s)
+         cap-map (->> caps
+                      (map #(hash-map (.toLowerCase %) %))
+                      (apply merge))]
+     (map #(if (contains? cap-map %) (cap-map %) %)
+          (-> (.toLowerCase s)
+              (clojure.string/split #"\s|[.!,]")
+              sort))))
+ "Clojure is a fun language!")
+;; => ("a" "Clojure" "fun" "is" "language")
+
 
