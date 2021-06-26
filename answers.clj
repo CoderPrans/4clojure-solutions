@@ -409,17 +409,18 @@
 ;; Challenge 69: Merge with a Function ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [f & maps]
-   (reduce (fn [acc cur]
-             (if (empty? acc)
-               (conj acc cur)
-               (->> (set (apply concat (map keys [acc cur])))
-                    (map #(cond
-                            (and (contains? acc %)
-                                 (contains? cur %)) {% (f (acc %) (cur %))}
-                            (contains? acc %) {% (acc %)}
-                            (contains? cur %) {% (cur %)}))
-                    (apply merge))))
-           {} maps))
+   (reduce
+    (fn [acc cur]
+      (if (empty? acc)
+        (conj acc cur)
+        (->> (set (apply concat (map keys [acc cur])))
+             (map #(cond
+                     (and (acc %)
+                          (cur %)) {% (f (acc %) (cur %))}
+                     (acc %) {% (acc %)}
+                     (cur %) {% (cur %)}))
+             (apply merge))))
+    {} maps))
  concat {:a [3], :b [6]} {:a [4 5], :c [8 9]} {:b [7]})
 ;; => {:c [8 9], :b (6 7), :a (3 4 5)}
 
@@ -442,11 +443,7 @@
  "Clojure is a fun language!")
 ;; => ("a" "Clojure" "fun" "is" "language")
 
-;; Challenge 73: Analayze a Tic-Tac-Toe Board ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(def lettuce [[:x :e :e]
-              [:o :x :e]
-              [:o :e :x]])
+;; Challenge 73: Analayze a Tic-Tac-Toe Board ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ((fn [l]
    (let [ac-r #(vector ((l 0) %1)
@@ -465,7 +462,23 @@
                  (vert 0) (vert 1) (vert 2)
                  (diag \r) (diag \l))]
      (when-not (= res :e) res)))
- lettuce)
+
+ [[:x :e :e]
+  [:o :x :e]
+  [:o :e :x]])
 ;; => :x
 
+;; Challenge 74: Filter Perfect Squares ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [num]
+   (->> (clojure.string/split num #",")
+        (map #(Long/parseLong %))
+        (filter
+         (fn [n]
+           (when ((->> (range n)
+                       (map #(* % %))
+                       set) n) n)))
+        (clojure.string/join #",")))
+ "15,16,25,36,37")
+;; => "16,25,36"
 
