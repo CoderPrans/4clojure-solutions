@@ -482,3 +482,19 @@
  "15,16,25,36,37")
 ;; => "16,25,36"
 
+;; Challenge 75: Euler's Totient Function ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [x]
+   (let [gcd #(if (zero? %2) %1
+                  (recur %2 (mod %1 %2)))]
+     (reduce (fn [acc cur]
+               (if (= 1 (gcd x cur))
+                 (inc acc)
+                 acc))
+             0 (range x))))
+ 40)
+;; => 16
+
+;; Challenge 76: Intro to Trampoline ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(trampoline )
