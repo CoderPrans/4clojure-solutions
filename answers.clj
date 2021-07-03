@@ -497,4 +497,23 @@
 
 ;; Challenge 76: Intro to Trampoline ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(trampoline )
+(letfn
+    [(foo [x y] #(bar (conj x y) y))
+     (bar [x y] (if (> (last x) 10)
+                  x
+                  #(foo x (+ 2 y))))]
+  (trampoline foo [] 1))
+;; => [1 3 5 7 9 11]
+
+;; Challenge 77: Anagram finder ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+((fn [ws]
+   (->> ws
+        (group-by #(set (seq %)))
+        (map (fn [[_ s]] (set s)))
+        (filter #(> (count %) 1))
+        set))
+ ["veer" "lake" "item" "kale" "mite" "ever"])
+;; => #{#{"kale" "lake"} #{"item" "mite"} #{"ever" "veer"}}
+
+
